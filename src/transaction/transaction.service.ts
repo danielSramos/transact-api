@@ -1,7 +1,6 @@
-import { BadRequestException, HttpCode, HttpStatus, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { TransactionRequestDto } from './dtos/transaction.request.dto';
-import { randomUUID } from 'crypto';
 
 @Injectable()
 export class TransactionService {
