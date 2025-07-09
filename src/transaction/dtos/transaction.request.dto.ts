@@ -5,14 +5,14 @@ export class TransactionRequestDto {
 
     @IsNotEmpty()
     @IsString()
-    id: string;
+    id: string = '';
 
     @IsNotEmpty()
     @IsNumber()
-    value: number;
+    value: number = 0;
 
     @IsNotEmpty()
     @Type(() => Date)
     @IsDate()
-    dateTime: Date;
+    dateTime: Date = new Date();;
 }
