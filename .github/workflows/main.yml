@@ -1,0 +1,45 @@
+name: CI/CD para API TEST (NestJS)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código do repositório
+      uses: actions/checkout@v4
+
+    - name: Configurar Node.js 18
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18' 
+        cache: 'npm'
+
+    - name: Instalar dependências
+      run: npm ci
+
+    - name: Gerar cliente Prisma
+      run: npx prisma generate
+
+    - name: Rodar migrações do Prisma (para ambiente de teste)
+      run: npx prisma migrate dev --name init
+
+    - name: Rodar testes
+      run: npm test
+
+    - name: Construir a aplicação
+      run: npm run build
+
+    - name: Empacotar a aplicação (dist folder)
+      run: zip -r api-test.zip dist
+
+    - name: Publicar artefato (dist.zip)
+      uses: actions/upload-artifact@v4
+      with:
+        name: api-test
+        path: api-test.zip
+        retention-days: 5
